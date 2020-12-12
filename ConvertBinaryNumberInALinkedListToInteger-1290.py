@@ -1,0 +1,25 @@
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution(object):
+    def getDecimalValue(self, head):
+        """
+        :type head: ListNode
+        :rtype: int
+        """
+        result = 0
+        while head:
+            result = result << 1
+            result = result | head.val
+            head = head.next
+        return result
+
+
+#driver function
+head = ListNode(1)
+head.next = ListNode(0)
+head.next.next = ListNode(1)
+
+print(Solution().getDecimalValue(head))
+
