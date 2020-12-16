@@ -78,21 +78,34 @@ class Solution:
 
     def formatBottomUpApproach(self):
         scores = [0]*(len(self.words)+1)
+        # pointers to store links
+        pointers = [0] * len(self.words)
 
         # startPos, endingPos (this is exclusive), step
         for i in range(len(self.words)-1, -1, -1):
             score = float('inf')
             for j in range(i+1, len(self.words)+1):
                 curScore = self.badnessScore(self.countChars(i, j)) + scores[j]
-                score = min(score, curScore)
+                if curScore < score:
+                    score = curScore
+                    pointers[i] = j
             scores[i] = score
 
+        self.printText(pointers)
         return scores[0]
+
+    def printText(self, pointers):
+        index = 0
+        while index < len(pointers):
+            line = self.words[index:pointers[index]] # last one exclusive
+            print(" ".join(line))
+            index = pointers[index]
 
 
 print(Solution("Isabel sat on the step".split(), 10).formatTxt(0))
+print(Solution("Isabel sat on the step".split(), 10).formatBottomUpApproach())
 # print(Solution("The total badness score for words which index bigger or equal to i is The total badness score for words which index bigger or equal to i is ".split(), 10).formatTxt(0))
-print(Solution("The total badness score for words which index bigger or equal to i is The total badness score for words which index bigger or equal to i is ".split(), 10).formatTxtMemoization(0, dict()))
-print(Solution("The total badness score for words which index bigger or equal to i is The total badness score for words which index bigger or equal to i is ".split(), 10).formatBottomUpApproach())
+print(Solution("The total badness score for words which index bigger or equal to i is The total badness score for words which index bigger or equal to i is ".split(), 40).formatTxtMemoization(0, dict()))
+print(Solution("The total badness score for words which index bigger or equal to i is The total badness score for words which index bigger or equal to i is ".split(), 40).formatBottomUpApproach())
 
 
